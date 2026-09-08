@@ -2,8 +2,10 @@ import { LoginPage } from "@/auth/";
 import { CalendarPage } from "@/calendar/pages/CalendarPage.tsx";
 import { Navigate, Route, Routes } from "react-router-dom";
 
+type typeAuthStatus = "authenticated" | "not-authenticated";
+
 export const AppRouter = () => {
-  const authStatus = "not-authenticated";
+  const authStatus: typeAuthStatus = "authenticated";
 
   return (
     <Routes>
