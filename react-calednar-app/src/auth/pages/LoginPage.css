@@ -1,0 +1,154 @@
+/* Centrado vertical y contenedor principal */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.login-container .row {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  margin: 0;
+}
+
+/* Columna izquierda: Ingreso (Fondo claro / limpio) */
+.login-form-1 {
+  background-color: #ffffff;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form-1 h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Columna derecha: Registro (Acento azul con contraste) */
+.login-form-2 {
+  background: linear-gradient(145deg, #0d6efd, #0052cc);
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form-2 h3 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Formularios y espaciado */
+.login-container form {
+  width: 100%;
+  padding: 0;
+}
+
+.login-container .form-group {
+  margin-bottom: 1.1rem;
+}
+
+/* Inputs form-control */
+.login-container .form-control {
+  height: 48px;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Inputs dentro de Ingreso */
+.login-form-1 .form-control {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.login-form-1 .form-control:focus {
+  background-color: #ffffff;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+  outline: none;
+}
+
+/* Inputs dentro de Registro */
+.login-form-2 .form-control {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid transparent;
+  color: #1e293b;
+}
+
+.login-form-2 .form-control:focus {
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+/* Botones Submit */
+.btnSubmit {
+  width: 100%;
+  height: 46px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.btnSubmit:active {
+  transform: scale(0.98);
+}
+
+.login-form-1 .btnSubmit {
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+.login-form-1 .btnSubmit:hover {
+  background-color: #0b5ed7;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.35);
+}
+
+.login-form-2 .btnSubmit {
+  background-color: #ffffff;
+  color: #0052cc;
+}
+
+.login-form-2 .btnSubmit:hover {
+  background-color: #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Enlace Olvidé contraseña */
+.ForgetPwd {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
+.login-form-1 .ForgetPwd {
+  color: #0d6efd;
+}
+
+.login-form-2 .ForgetPwd {
+  color: #ffffff;
+}
