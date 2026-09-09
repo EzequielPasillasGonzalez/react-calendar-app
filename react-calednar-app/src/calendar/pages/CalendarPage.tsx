@@ -1,11 +1,11 @@
-import { Calendar, type EventPropGetter } from "react-big-calendar";
+import { Calendar, type EventPropGetter, type View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { addHours } from "date-fns";
 
-import { Navbar } from "@/calendar/components/Navbar.tsx";
 import { localizer } from "@/helpers/";
+import { useState, type CSSProperties } from "react";
 import type { EventCalendar } from "@/calendar/interfaces/";
-import type { CSSProperties } from "react";
+import { Navbar, CalendarModal } from "@/calendar/";
 
 const events: EventCalendar[] = [
   {
@@ -22,6 +22,10 @@ const events: EventCalendar[] = [
 ];
 
 export const CalendarPage = () => {
+  const [currentView, setCurrentView] = useState<View>(
+    (localStorage.getItem("lastView") as View) || "agenda",
+  );
+
   const eventStyleGetter: EventPropGetter<EventCalendar> = (
     event,
     start,
@@ -41,6 +45,21 @@ export const CalendarPage = () => {
       style,
     };
   };
+
+  const onDoubleClick = (event: EventCalendar) => {
+    console.log({ doubleClick: event });
+  };
+
+  const onSelect = (event: EventCalendar) => {
+    console.log({ select: event });
+  };
+
+  const onViewChanged = (view: View) => {
+    console.log({ viewChange: view });
+    localStorage.setItem("lastView", view);
+    setCurrentView(view);
+  };
+
   return (
     <>
       <Navbar />
@@ -51,8 +70,15 @@ export const CalendarPage = () => {
         startAccessor="start"
         endAccessor="end"
         style={{ height: "calc(100vh - 80px)" }}
+        defaultView="agenda"
+        view={currentView}
         eventPropGetter={eventStyleGetter}
+        onDoubleClickEvent={onDoubleClick}
+        onSelectEvent={onSelect}
+        onView={onViewChanged}
       />
+
+      <CalendarModal />
     </>
   );
 };
