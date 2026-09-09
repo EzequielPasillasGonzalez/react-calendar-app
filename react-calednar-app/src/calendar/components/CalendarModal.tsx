@@ -69,6 +69,7 @@ export const CalendarModal = () => {
             className="form-control"
             onChange={(date: Date | null) => onDateChange(date, "start")}
             dateFormat={"Pp"}
+            showTimeSelect
           />
         </div>
 
@@ -80,6 +81,7 @@ export const CalendarModal = () => {
             onChange={(date: Date | null) => onDateChange(date, "end")}
             minDate={formValues.start}
             dateFormat={"Pp"}
+            showTimeSelect
           />
         </div>
 
