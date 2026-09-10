@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "sweetalert2/dist/sweetalert2.min.css";
 import Swal from "sweetalert2";
+import { useUiStore } from "@/store/index.ts";
 
 const customStyles = {
   content: {
@@ -23,7 +24,9 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  //  Suscribirse directamente al valor booleano en el store
+  const isDateModalOpen = useUiStore((state) => state.isDateModalOpen);
+  const onCloseDateModal = useUiStore((state) => state.onCloseDateModal);
 
   const [formValues, setFormValues] = useState({
     title: "Cheke",
@@ -39,11 +42,6 @@ export const CalendarModal = () => {
 
     return formValues.title.length === 0 ? "is-invalid" : "";
   }, [formValues.title, formSubmitted]);
-
-  const onCloseModal = () => {
-    console.log("Cerrando Modal");
-    setIsOpen(false);
-  };
 
   const onInputChange = ({
     target,
@@ -86,8 +84,8 @@ export const CalendarModal = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onRequestClose={onCloseModal}
+      isOpen={isDateModalOpen}
+      onRequestClose={onCloseDateModal}
       style={customStyles}
       className={"modal"}
       overlayClassName={"modal-fondo"}
