@@ -28,7 +28,6 @@ export const CalendarPage = () => {
   );
 
   const onOpenDateModal = useUiStore((state) => state.onOpenDateModal);
-  const isModalOpen = useUiStore((state) => state.isDateModalOpen);
 
   const eventStyleGetter: EventPropGetter<EventCalendar> = (
     event,
