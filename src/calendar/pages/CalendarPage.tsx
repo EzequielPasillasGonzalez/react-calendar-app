@@ -1,12 +1,11 @@
+import { useState, type CSSProperties } from "react";
 import { Calendar, type EventPropGetter, type View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { localizer } from "@/helpers/";
-import { useState, type CSSProperties } from "react";
 import type { EventCalendar } from "@/calendar/interfaces/";
 import { Navbar, CalendarModal } from "@/calendar/";
-import { uiStore } from "@/store/index.ts";
-import { useCalendarStore } from "@/store/calendar/calendarStore.ts";
+import { useCalendarStore, useUiStore } from "@/store/index.ts";
 
 export const CalendarPage = () => {
   const [currentView, setCurrentView] = useState<View>(
@@ -14,8 +13,9 @@ export const CalendarPage = () => {
   );
 
   const events = useCalendarStore((state) => state.events);
+  const onSetActiveEvent = useCalendarStore((state) => state.onSetActiveEvent);
 
-  const onOpenDateModal = uiStore((state) => state.onOpenDateModal);
+  const onOpenDateModal = useUiStore((state) => state.onOpenDateModal);
 
   const eventStyleGetter: EventPropGetter<EventCalendar> = (
     event,
@@ -42,11 +42,10 @@ export const CalendarPage = () => {
   };
 
   const onSelect = (event: EventCalendar) => {
-    console.log({ select: event });
+    onSetActiveEvent(event);
   };
 
   const onViewChanged = (view: View) => {
-    console.log({ viewChange: view });
     localStorage.setItem("lastView", view);
     setCurrentView(view);
   };

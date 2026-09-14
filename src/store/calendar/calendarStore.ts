@@ -20,7 +20,7 @@ type CalendarState = {
   activeEvent: EventCalendar | null;
 
   // Actions
-  onSetActiveEvent: (payload: EventCalendar) => void;
+  onSetActiveEvent: (payload: EventCalendar | null) => void;
   // onCloseDateModal: () => void;
 };
 

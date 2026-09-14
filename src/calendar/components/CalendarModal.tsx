@@ -1,14 +1,8 @@
-import { addHours, differenceInSeconds } from "date-fns";
-import { useMemo, useState, type ChangeEvent, type SubmitEvent } from "react";
-
 import Modal from "react-modal";
 
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
-import "sweetalert2/dist/sweetalert2.min.css";
-import Swal from "sweetalert2";
-import { useUiStore } from "@/store/ui/uiStore.ts";
+import { useUiStore, useCalendarStore } from "@/store/index.ts";
+import { CalendarForm } from "@/calendar/components/CalendarForm.tsx";
+import type { FormCalendarValues } from "@/calendar/interfaces/formCalendarValues.ts";
 
 const customStyles = {
   content: {
@@ -26,60 +20,16 @@ Modal.setAppElement("#root");
 export const CalendarModal = () => {
   //  Suscribirse directamente al valor booleano en el store
   const isDateModalOpen = useUiStore((state) => state.isDateModalOpen);
-  const onCloseDateModal = useUiStore((state) => state.onCloseDateModal );
+  const onCloseDateModal = useUiStore((state) => state.onCloseDateModal);
+  const activeEvent = useCalendarStore((state) => state.activeEvent);
 
-  const [formValues, setFormValues] = useState({
-    title: "Cheke",
-    notes: "Holi",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-  });
+  const onSubmit = (formData: FormCalendarValues) => {
+    console.log("Datos listos para guardar en Zustand/API:", formData);
 
-  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+    // Aquí llamarías a tu acción del store:
+    // startSavingEvent(formData);
 
-  const titleClass = useMemo(() => {
-    if (!formSubmitted) return "";
-
-    return formValues.title.length === 0 ? "is-invalid" : "";
-  }, [formValues.title, formSubmitted]);
-
-  const onInputChange = ({
-    target,
-  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormValues({
-      ...formValues,
-      [target.name]: target.value,
-    });
-  };
-
-  const onDateChange = (date: Date | null, changing: "start" | "end") => {
-    if (!date) return;
-
-    setFormValues({
-      ...formValues,
-      [changing]: date,
-    });
-  };
-
-  const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setFormSubmitted(true);
-    const difference = differenceInSeconds(formValues.end, formValues.start);
-
-    if (isNaN(difference) || difference <= 0) {
-      Swal.fire("Fechas incorrectas", "Revisar las fechas ingresadas", "error");
-      return;
-    }
-
-    if (formValues.title.length <= 0) {
-      Swal.fire("Titulo incorrecto", "Revisar el titulo ingresado", "error");
-
-      return;
-    }
-
-    console.log({ formValues });
-
-    // TODO: remover errores en pantallas cerrar modal
+    onCloseDateModal();
   };
 
   return (
@@ -91,68 +41,16 @@ export const CalendarModal = () => {
       overlayClassName={"modal-fondo"}
       closeTimeoutMS={200}
     >
-      <h1 className="text-black"> Nuevo evento </h1>
+      <h1 className="text-black">
+        {activeEvent ? "Editar evento" : "Nuevo evento"}
+      </h1>
       <hr />
-      <form className="container" onSubmit={onSubmit}>
-        <div className="form-group mb-2">
-          <label>Fecha y hora inicio</label>
-          <DatePicker
-            selected={formValues.start}
-            className="form-control"
-            onChange={(date: Date | null) => onDateChange(date, "start")}
-            dateFormat={"Pp"}
-            showTimeSelect
-          />
-        </div>
 
-        <div className="form-group mb-2">
-          <label>Fecha y hora fin</label>
-          <DatePicker
-            selected={formValues.end}
-            className="form-control"
-            onChange={(date: Date | null) => onDateChange(date, "end")}
-            minDate={formValues.start}
-            dateFormat={"Pp"}
-            showTimeSelect
-          />
-        </div>
-
-        <hr />
-        <div className="form-group mb-2">
-          <label>Titulo y notas</label>
-          <input
-            type="text"
-            className={`form-control ${titleClass}`}
-            placeholder="Título del evento"
-            name="title"
-            autoComplete="off"
-            value={formValues.title}
-            onChange={onInputChange}
-          />
-          <small id="emailHelp" className="form-text text-muted">
-            Una descripción corta
-          </small>
-        </div>
-
-        <div className="form-group mb-2">
-          <textarea
-            value={formValues.notes}
-            onChange={onInputChange}
-            className="form-control"
-            placeholder="Notas"
-            rows={5}
-            name="notes"
-          ></textarea>
-          <small id="emailHelp" className="form-text text-muted">
-            Información adicional
-          </small>
-        </div>
-
-        <button type="submit" className="btn btn-outline-primary btn-block">
-          <i className="far fa-save"></i>
-          <span> Guardar</span>
-        </button>
-      </form>
+      <CalendarForm
+        initialFormValues={activeEvent}
+        onEventSubmit={onSubmit}
+        key={activeEvent?.user._id ?? activeEvent?.title ?? "new-event"}
+      />
     </Modal>
   );
 };
