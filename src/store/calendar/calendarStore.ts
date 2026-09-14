@@ -20,17 +20,13 @@ type CalendarState = {
   activeEvent: EventCalendar | null;
 
   // Actions
-  onOpenDateModal: () => void;
-  onCloseDateModal: () => void;
+  // onOpenDateModal: () => void;
+  // onCloseDateModal: () => void;
 };
 
-export const useCalendarStore = create<CalendarState>()((set) => ({
-  isDateModalOpen: false,
-
-  onCloseDateModal() {
-    set({ isDateModalOpen: false });
-  },
-  onOpenDateModal() {
-    set({ isDateModalOpen: true });
-  },
+export const calendarStore = create<CalendarState>()(() => ({
+  activeEvent: null,
+  events: [tempEvent],
+  // onCloseDateModal() {},
+  // onOpenDateModal() {},
 }));

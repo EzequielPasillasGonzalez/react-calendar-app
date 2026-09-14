@@ -9,7 +9,7 @@ type UiState = {
   onCloseDateModal: () => void;
 };
 
-export const useUiStore = create<UiState>()((set) => ({
+export const uiStore = create<UiState>()((set) => ({
   isDateModalOpen: false,
 
   onCloseDateModal() {

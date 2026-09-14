@@ -1,33 +1,21 @@
 import { Calendar, type EventPropGetter, type View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { addHours } from "date-fns";
 
 import { localizer } from "@/helpers/";
 import { useState, type CSSProperties } from "react";
 import type { EventCalendar } from "@/calendar/interfaces/";
 import { Navbar, CalendarModal } from "@/calendar/";
-import { useUiStore } from "@/store/index.ts";
-
-const events: EventCalendar[] = [
-  {
-    title: "Mi cumpleaños",
-    notes: "Hay que organizar algo",
-    start: new Date(),
-    end: addHours(new Date(), 2),
-    bgColor: "#fafafa",
-    user: {
-      _id: "123",
-      name: "Cheke",
-    },
-  },
-];
+import { uiStore } from "@/store/index.ts";
+import { useCalendarStore } from "@/hooks/";
 
 export const CalendarPage = () => {
   const [currentView, setCurrentView] = useState<View>(
     (localStorage.getItem("lastView") as View) || "agenda",
   );
 
-  const onOpenDateModal = useUiStore((state) => state.onOpenDateModal);
+  const { events } = useCalendarStore();
+
+  const onOpenDateModal = uiStore((state) => state.onOpenDateModal);
 
   const eventStyleGetter: EventPropGetter<EventCalendar> = (
     event,
