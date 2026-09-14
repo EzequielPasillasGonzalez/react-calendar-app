@@ -6,14 +6,14 @@ import { useState, type CSSProperties } from "react";
 import type { EventCalendar } from "@/calendar/interfaces/";
 import { Navbar, CalendarModal } from "@/calendar/";
 import { uiStore } from "@/store/index.ts";
-import { useCalendarStore } from "@/hooks/";
+import { useCalendarStore } from "@/store/calendar/calendarStore.ts";
 
 export const CalendarPage = () => {
   const [currentView, setCurrentView] = useState<View>(
     (localStorage.getItem("lastView") as View) || "agenda",
   );
 
-  const { events } = useCalendarStore();
+  const events = useCalendarStore((state) => state.events);
 
   const onOpenDateModal = uiStore((state) => state.onOpenDateModal);
 

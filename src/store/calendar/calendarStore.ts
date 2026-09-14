@@ -20,13 +20,16 @@ type CalendarState = {
   activeEvent: EventCalendar | null;
 
   // Actions
-  // onOpenDateModal: () => void;
+  onSetActiveEvent: (payload: EventCalendar) => void;
   // onCloseDateModal: () => void;
 };
 
-export const calendarStore = create<CalendarState>()(() => ({
+export const useCalendarStore = create<CalendarState>()((set) => ({
   activeEvent: null,
   events: [tempEvent],
+  onSetActiveEvent(payload) {
+    set({ activeEvent: payload });
+  },
   // onCloseDateModal() {},
   // onOpenDateModal() {},
 }));

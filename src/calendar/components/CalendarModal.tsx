@@ -8,8 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "sweetalert2/dist/sweetalert2.min.css";
 import Swal from "sweetalert2";
-
-import { useUiStore } from "@/hooks/index.ts";
+import { useUiStore } from "@/store/ui/uiStore.ts";
 
 const customStyles = {
   content: {
@@ -26,7 +25,8 @@ Modal.setAppElement("#root");
 
 export const CalendarModal = () => {
   //  Suscribirse directamente al valor booleano en el store
-  const { isDateModalOpen, onCloseDateModal } = useUiStore();
+  const isDateModalOpen = useUiStore((state) => state.isDateModalOpen);
+  const onCloseDateModal = useUiStore((state) => state.onCloseDateModal );
 
   const [formValues, setFormValues] = useState({
     title: "Cheke",
