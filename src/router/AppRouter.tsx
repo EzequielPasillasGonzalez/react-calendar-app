@@ -1,11 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage } from "@/auth/";
 import { CalendarPage } from "@/calendar/pages/CalendarPage.tsx";
-
-type typeAuthStatus = "authenticated" | "not-authenticated";
+import type { typeAuthStatus } from "@/store/index.ts";
 
 export const AppRouter = () => {
-  const authStatus: typeAuthStatus = "authenticated";
+  const authStatus: typeAuthStatus = "not-authenticated";
 
   return (
     <Routes>

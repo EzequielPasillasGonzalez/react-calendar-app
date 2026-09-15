@@ -1,9 +1,11 @@
 import type { User } from "@/calendar/index.ts";
 import { create } from "zustand";
 
+export type typeAuthStatus = "authenticated" | "not-authenticated" | "checking";
+
 type AuthState = {
   // Properties
-  status: "checking" | "authenticated" | "not-authenticated";
+  status: typeAuthStatus;
   user: User | null;
   errorMessage: string | null;
   // Actions
