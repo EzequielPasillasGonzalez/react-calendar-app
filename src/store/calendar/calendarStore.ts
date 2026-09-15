@@ -23,6 +23,7 @@ type CalendarState = {
   // Actions
   onSetActiveEvent: (payload: EventCalendar | null) => void;
   onSaveEvent: (payload: EventCalendar) => void;
+  onDeleteEvent: () => void;
 };
 
 export const useCalendarStore = create<CalendarState>()((set) => ({
@@ -49,6 +50,24 @@ export const useCalendarStore = create<CalendarState>()((set) => ({
             ...state.events,
             { ...payload, _id: payload._id || new Date().getTime().toString() },
           ];
+
+      return {
+        events: updatedEvents,
+        activeEvent: null, //  Limpia la selección en el mismo render
+      };
+    });
+  },
+  onDeleteEvent: () => {
+    set((state) => {
+      if (!state.activeEvent) {
+        return {
+          events: state.events,
+          activeEvent: null,
+        };
+      }
+      const updatedEvents = state.events.filter(
+        (event) => event._id !== state.activeEvent?._id,
+      );
 
       return {
         events: updatedEvents,

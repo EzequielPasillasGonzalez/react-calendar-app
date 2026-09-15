@@ -157,6 +157,15 @@ code {
   font-size: 30px;
   padding: 25px;
   right: 25px;
-  text-align: center;
-  position: absolute;
+  position: fixed;
+}
+
+.fab-danger {
+  border-radius: 100%;
+  bottom: 25px;
+  font-size: 30px;
+  width: 70px;
+  height: 70px;
+  left: 25px;
+  position: fixed;
 }
