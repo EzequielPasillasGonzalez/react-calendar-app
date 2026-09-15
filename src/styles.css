@@ -150,3 +150,22 @@ code {
   outline: none;
   padding: 10px;
 }
+
+.fab {
+  border-radius: 100%;
+  bottom: 25px;
+  font-size: 30px;
+  padding: 25px;
+  right: 25px;
+  position: fixed;
+}
+
+.fab-danger {
+  border-radius: 100%;
+  bottom: 25px;
+  font-size: 30px;
+  width: 70px;
+  height: 70px;
+  left: 25px;
+  position: fixed;
+}

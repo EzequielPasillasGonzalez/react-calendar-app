@@ -4,7 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { localizer } from "@/helpers/";
 import type { EventCalendar } from "@/calendar/interfaces/";
-import { Navbar, CalendarModal } from "@/calendar/";
+import { Navbar, CalendarModal, FabAddNew, FabDelete } from "@/calendar/";
 import { useCalendarStore, useUiStore } from "@/store/index.ts";
 
 export const CalendarPage = () => {
@@ -17,14 +17,7 @@ export const CalendarPage = () => {
 
   const onOpenDateModal = useUiStore((state) => state.onOpenDateModal);
 
-  const eventStyleGetter: EventPropGetter<EventCalendar> = (
-    event,
-    start,
-    end,
-    isSelected,
-  ) => {
-    console.log({ event, start, end, isSelected });
-
+  const eventStyleGetter: EventPropGetter<EventCalendar> = () => {
     const style: CSSProperties = {
       backgroundColor: "#347CF7",
       borderRadius: "0px",
@@ -69,6 +62,8 @@ export const CalendarPage = () => {
       />
 
       <CalendarModal />
+      <FabAddNew />
+      <FabDelete />
     </>
   );
 };

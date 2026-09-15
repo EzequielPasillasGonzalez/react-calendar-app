@@ -15,8 +15,8 @@ interface Props {
 
 export const CalendarForm = ({ onEventSubmit, initialFormValues }: Props) => {
   const [formValues, setFormValues] = useState({
-    title: initialFormValues?.title ?? "Cheke",
-    notes: initialFormValues?.notes ?? "Holi",
+    title: initialFormValues?.title ?? "",
+    notes: initialFormValues?.notes ?? "",
     start: initialFormValues?.start ?? new Date(),
     end: initialFormValues?.end ?? addHours(new Date(), 2),
   });
