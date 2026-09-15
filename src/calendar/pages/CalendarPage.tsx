@@ -17,14 +17,7 @@ export const CalendarPage = () => {
 
   const onOpenDateModal = useUiStore((state) => state.onOpenDateModal);
 
-  const eventStyleGetter: EventPropGetter<EventCalendar> = (
-    event,
-    start,
-    end,
-    isSelected,
-  ) => {
-    console.log({ event, start, end, isSelected });
-
+  const eventStyleGetter: EventPropGetter<EventCalendar> = () => {
     const style: CSSProperties = {
       backgroundColor: "#347CF7",
       borderRadius: "0px",

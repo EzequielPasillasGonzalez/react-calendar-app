@@ -22,12 +22,19 @@ export const CalendarModal = () => {
   const isDateModalOpen = useUiStore((state) => state.isDateModalOpen);
   const onCloseDateModal = useUiStore((state) => state.onCloseDateModal);
   const activeEvent = useCalendarStore((state) => state.activeEvent);
+  const onSaveEvent = useCalendarStore((state) => state.onSaveEvent);
 
   const onSubmit = (formData: FormCalendarValues) => {
-    console.log("Datos listos para guardar en Zustand/API:", formData);
-
     // Aquí llamarías a tu acción del store:
-    // startSavingEvent(formData);
+    onSaveEvent({
+      ...formData,
+      _id: activeEvent?._id ?? "", // Si se edita conserva el id, si es nuevo va vacío para que el store lo genere
+      bgColor: "#347CF7",
+      user: activeEvent?.user ?? {
+        _id: "123",
+        name: "Cheke",
+      },
+    });
 
     onCloseDateModal();
   };
@@ -49,7 +56,7 @@ export const CalendarModal = () => {
       <CalendarForm
         initialFormValues={activeEvent}
         onEventSubmit={onSubmit}
-        key={activeEvent?.user._id ?? activeEvent?.title ?? "new-event"}
+        key={activeEvent?._id ?? "new-calendar-event"}
       />
     </Modal>
   );
