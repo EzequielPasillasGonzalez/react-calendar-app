@@ -2,6 +2,7 @@ import { useAuthStore } from "@/store/index.ts";
 
 export const Navbar = () => {
   const onLogout = useAuthStore((state) => state.onLogout);
+  const userName = useAuthStore((state) => state.user?.name);
 
   const onLogoutClick = () => {
     onLogout("Sesión cerrada");
@@ -10,7 +11,7 @@ export const Navbar = () => {
     <div className="navbar navbar-dark bg-dark mb-4 px-4">
       <span className="navbar-brand">
         <i className="fas fa-calendar-alt" />
-        {""} Cheke
+        {""} {userName}
       </span>
 
       <button className="btn btn-outline-danger" onClick={onLogoutClick}>
