@@ -14,7 +14,7 @@ export const registerAction = async (
     });
 
     return {
-      _id: data.uid,
+      id: data.uid,
       name: data.name,
       token: data.token,
     };

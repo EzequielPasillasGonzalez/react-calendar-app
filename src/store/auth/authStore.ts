@@ -55,7 +55,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
     localStorage.setItem("token", data.token);
 
-    get().onLogin({ _id: data._id, name: data.name });
+    get().onLogin({ id: data.id, name: data.name });
   },
   onLogout(message: string) {
     localStorage.removeItem("token");
@@ -77,7 +77,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       return;
     }
     localStorage.setItem("token", data.token);
-    get().onLogin({ _id: data._id, name: data.name });
+    get().onLogin({ id: data.id, name: data.name });
   },
   async onCheckAuthToken() {
     const token = localStorage.getItem("token");
@@ -94,6 +94,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
     localStorage.setItem("token", data.token);
 
-    get().onLogin({ _id: data._id, name: data.name });
+    get().onLogin({ id: data.id, name: data.name });
   },
 }));

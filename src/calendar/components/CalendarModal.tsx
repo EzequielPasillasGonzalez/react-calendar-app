@@ -28,10 +28,10 @@ export const CalendarModal = () => {
     // Aquí llamarías a tu acción del store:
     onSaveEvent({
       ...formData,
-      _id: activeEvent?._id ?? "", // Si se edita conserva el id, si es nuevo va vacío para que el store lo genere
+      id: activeEvent?.id ?? "", // Si se edita conserva el id, si es nuevo va vacío para que el store lo genere
       bgColor: "#347CF7",
       user: activeEvent?.user ?? {
-        _id: "123",
+        id: "123",
         name: "Cheke",
       },
     });
@@ -56,7 +56,7 @@ export const CalendarModal = () => {
       <CalendarForm
         initialFormValues={activeEvent}
         onEventSubmit={onSubmit}
-        key={activeEvent?._id ?? "new-calendar-event"}
+        key={activeEvent?.id ?? "new-calendar-event"}
       />
     </Modal>
   );

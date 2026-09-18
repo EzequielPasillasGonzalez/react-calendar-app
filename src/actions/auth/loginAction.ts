@@ -9,7 +9,7 @@ export const loginAction = async (
     const { data } = await calendarApi.post("/auth", { email, password });
 
     return {
-      _id: data.uid,
+      id: data.uid,
       name: data.name,
       token: data.token,
     };

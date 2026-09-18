@@ -6,7 +6,7 @@ export const renewTokenAction = async (): Promise<UserApi | null> => {
     const { data } = await calendarApi.get("/auth/renew");
 
     return {
-      _id: data.uid,
+      id: data.uid,
       name: data.name,
       token: data.token,
     };

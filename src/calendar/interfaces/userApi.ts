@@ -1,5 +1,5 @@
 export interface UserApi {
-  _id: string;
+  id: string;
   name: string;
   token: string;
 }

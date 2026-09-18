@@ -1,16 +1,22 @@
+import {
+  createEventAction,
+  deleteEventAction,
+  getEventAction,
+  updateEventAction,
+} from "@/actions/index.ts";
 import type { EventCalendar } from "@/calendar/index.ts";
 import { addHours } from "date-fns";
 import { create } from "zustand";
 
 const tempEvent: EventCalendar = {
-  _id: "123",
+  id: "123",
   title: "Mi cumpleaños",
   notes: "Hay que organizar algo",
   start: new Date(),
   end: addHours(new Date(), 2),
   bgColor: "#fafafa",
   user: {
-    _id: "123",
+    id: "123",
     name: "Cheke",
   },
 };
@@ -22,57 +28,47 @@ type CalendarState = {
 
   // Actions
   onSetActiveEvent: (payload: EventCalendar | null) => void;
-  onSaveEvent: (payload: EventCalendar) => void;
-  onDeleteEvent: () => void;
+  onSaveEvent: (payload: EventCalendar) => Promise<void>;
+  onDeleteEvent: () => Promise<boolean>;
+  onGetEvent: () => Promise<void>;
 };
 
-export const useCalendarStore = create<CalendarState>()((set) => ({
+export const useCalendarStore = create<CalendarState>()((set, get) => ({
   activeEvent: null,
   events: [tempEvent],
   onSetActiveEvent(payload) {
     set({ activeEvent: payload });
   },
-  onSaveEvent: (payload) => {
-    if (!payload.title.trim()) return;
+  onSaveEvent: async (payload: EventCalendar) => {
+    if (!payload.title.trim() || !payload.start || !payload.end) return;
+    const isUpdate = payload.id && payload.id !== "";
 
-    set((state) => {
-      // Comprobamos si el evento ya existe en la lista
-      const isExisting = state.events.some(
-        (event) => event._id === payload._id,
-      );
+    if (isUpdate) {
+      await updateEventAction(payload.id, {
+        title: payload.title,
+        start: payload.start,
+        end: payload.end,
+        notes: payload.notes,
+      });
+    } else {
+      await createEventAction({
+        title: payload.title,
+        start: payload.start,
+        end: payload.end,
+        notes: payload.notes,
+      });
+    }
 
-      // Si el evento ya existe, lo actualizamos; de lo contrario, lo agregamos
-      const updatedEvents = isExisting
-        ? state.events.map((event) =>
-            event._id === payload._id ? payload : event,
-          )
-        : [
-            ...state.events,
-            { ...payload, _id: payload._id || new Date().getTime().toString() },
-          ];
-
-      return {
-        events: updatedEvents,
-        activeEvent: null, //  Limpia la selección en el mismo render
-      };
-    });
+    get().onGetEvent();
   },
-  onDeleteEvent: () => {
-    set((state) => {
-      if (!state.activeEvent) {
-        return {
-          events: state.events,
-          activeEvent: null,
-        };
-      }
-      const updatedEvents = state.events.filter(
-        (event) => event._id !== state.activeEvent?._id,
-      );
-
-      return {
-        events: updatedEvents,
-        activeEvent: null, //  Limpia la selección en el mismo render
-      };
-    });
+  onDeleteEvent: async (): Promise<boolean> => {
+    if (!get().activeEvent) return false;
+    const eventId = get().activeEvent!.id;
+    const ok = await deleteEventAction(eventId);
+    return ok;
+  },
+  onGetEvent: async () => {
+    const events = await getEventAction();
+    set({ events: events });
   },
 }));
