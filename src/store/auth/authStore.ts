@@ -4,6 +4,7 @@ import {
   renewTokenAction,
 } from "@/actions/index.ts";
 import type { User } from "@/calendar/index.ts";
+import { useCalendarStore } from "@/store/calendar/calendarStore.ts";
 import { create } from "zustand";
 
 export type typeAuthStatus = "authenticated" | "not-authenticated" | "checking";
@@ -59,6 +60,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
   onLogout(message: string) {
     localStorage.removeItem("token");
+    useCalendarStore.getState().onClearEvents();
     set({
       status: "not-authenticated",
       user: null,

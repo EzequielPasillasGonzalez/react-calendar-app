@@ -17,6 +17,7 @@ type CalendarState = {
   onSaveEvent: (payload: Partial<EventCalendar>) => Promise<void>;
   onDeleteEvent: () => Promise<boolean>;
   onGetEvent: () => Promise<void>;
+  onClearEvents: () => void;
 };
 
 export const useCalendarStore = create<CalendarState>()((set, get) => ({
@@ -61,5 +62,8 @@ export const useCalendarStore = create<CalendarState>()((set, get) => ({
   onGetEvent: async () => {
     const events = await getEventAction();
     set({ events: events });
+  },
+  onClearEvents() {
+    set({ events: [], activeEvent: null });
   },
 }));
