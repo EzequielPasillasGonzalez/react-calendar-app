@@ -48,7 +48,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   async onStartLogin(email: string, password: string) {
     const data = await loginAction(email, password);
 
-    if (data._id === null || data.name === null || data.token === null) {
+    if (data === null) {
       get().onLogout("Credenciales incorrectas");
       return;
     }
@@ -72,7 +72,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
   async onStartRegister(name, email, password) {
     const data = await registerAction(name, email, password);
-    if (data._id === null || data.name === null || data.token === null) {
+    if (data === null) {
       get().onLogout("Error en el registro");
       return;
     }
@@ -86,7 +86,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     }
 
     const data = await renewTokenAction();
-    if (data._id === null || data.name === null || data.token === null) {
+    if (data === null) {
       localStorage.clear();
       get().onLogout("");
       return;

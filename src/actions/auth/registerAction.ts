@@ -1,14 +1,11 @@
 import calendarApi from "@/api/calendarApi.ts";
+import type { UserApi } from "@/calendar/index.ts";
 
 export const registerAction = async (
   name: string,
   email: string,
   password: string,
-): Promise<{
-  _id: string | null;
-  name: string | null;
-  token: string | null;
-}> => {
+): Promise<UserApi | null> => {
   try {
     const { data } = await calendarApi.post("/auth/new", {
       name,
@@ -22,10 +19,6 @@ export const registerAction = async (
       token: data.token,
     };
   } catch {
-    return {
-      _id: null,
-      name: null,
-      token: null,
-    };
+    return null;
   }
 };

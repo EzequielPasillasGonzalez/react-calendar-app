@@ -1,10 +1,7 @@
 import calendarApi from "@/api/calendarApi.ts";
+import type { UserApi } from "@/calendar/index.ts";
 
-export const renewTokenAction = async (): Promise<{
-  _id: string | null;
-  name: string | null;
-  token: string | null;
-}> => {
+export const renewTokenAction = async (): Promise<UserApi | null> => {
   try {
     const { data } = await calendarApi.get("/auth/renew");
 
@@ -14,10 +11,6 @@ export const renewTokenAction = async (): Promise<{
       token: data.token,
     };
   } catch {
-    return {
-      _id: null,
-      name: null,
-      token: null,
-    };
+    return null;
   }
 };
