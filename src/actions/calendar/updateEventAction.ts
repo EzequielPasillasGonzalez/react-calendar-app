@@ -1,11 +1,12 @@
 import calendarApi from "@/api/calendarApi.ts";
 import type { EventApi, FormCalendarValues } from "@/calendar/index.ts";
 
-export const createEventAction = async (
+export const updateEventAction = async (
+  id: string,
   event: FormCalendarValues,
 ): Promise<EventApi | null> => {
   try {
-    const { data } = await calendarApi.post("/events", {
+    const { data } = await calendarApi.put(`/events/${id}`, {
       title: event.title,
       start: event.start,
       end: event.end,
