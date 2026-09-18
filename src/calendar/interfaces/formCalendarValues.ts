@@ -1,6 +1,6 @@
 export interface FormCalendarValues {
   title: string;
-  notes: string;
+  notes?: string;
   start: Date;
   end: Date;
 }

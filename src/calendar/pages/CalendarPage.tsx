@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Calendar, type EventPropGetter, type View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
@@ -6,6 +6,7 @@ import { localizer } from "@/helpers/";
 import type { EventCalendar } from "@/calendar/interfaces/";
 import { Navbar, CalendarModal, FabAddNew, FabDelete } from "@/calendar/";
 import { useCalendarStore, useUiStore } from "@/store/index.ts";
+import { CalendarEvent } from "@/calendar/components/CalendarEvent.tsx";
 
 export const CalendarPage = () => {
   const [currentView, setCurrentView] = useState<View>(
@@ -14,8 +15,13 @@ export const CalendarPage = () => {
 
   const events = useCalendarStore((state) => state.events);
   const onSetActiveEvent = useCalendarStore((state) => state.onSetActiveEvent);
+  const onGetEvent = useCalendarStore((state) => state.onGetEvent);
 
   const onOpenDateModal = useUiStore((state) => state.onOpenDateModal);
+
+  useEffect(() => {
+    onGetEvent();
+  }, [onGetEvent]);
 
   const eventStyleGetter: EventPropGetter<EventCalendar> = () => {
     const style: CSSProperties = {
@@ -59,6 +65,9 @@ export const CalendarPage = () => {
         onDoubleClickEvent={onDoubleClick}
         onSelectEvent={onSelect}
         onView={onViewChanged}
+        components={{
+          event: CalendarEvent,
+        }}
       />
 
       <CalendarModal />

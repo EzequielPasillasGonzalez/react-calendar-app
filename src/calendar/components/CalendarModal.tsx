@@ -29,11 +29,6 @@ export const CalendarModal = () => {
     onSaveEvent({
       ...formData,
       id: activeEvent?.id ?? "", // Si se edita conserva el id, si es nuevo va vacío para que el store lo genere
-      bgColor: "#347CF7",
-      user: activeEvent?.user ?? {
-        id: "123",
-        name: "Cheke",
-      },
     });
 
     onCloseDateModal();
