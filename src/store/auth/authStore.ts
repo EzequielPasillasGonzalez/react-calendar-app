@@ -1,4 +1,8 @@
-import calendarApi from "@/api/calendarApi.ts";
+import {
+  loginAction,
+  registerAction,
+  renewTokenAction,
+} from "@/actions/index.ts";
 import type { User } from "@/calendar/index.ts";
 import { create } from "zustand";
 
@@ -42,15 +46,19 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     });
   },
   async onStartLogin(email: string, password: string) {
-    try {
-      const { data } = await calendarApi.post("/auth", { email, password });
-      localStorage.setItem("token", data.token);
-      get().onLogin({ _id: data.uid, name: data.name });
-    } catch {
+    const data = await loginAction(email, password);
+
+    if (data._id === null || data.name === null || data.token === null) {
       get().onLogout("Credenciales incorrectas");
+      return;
     }
+
+    localStorage.setItem("token", data.token);
+
+    get().onLogin({ _id: data._id, name: data.name });
   },
   onLogout(message: string) {
+    localStorage.removeItem("token");
     set({
       status: "not-authenticated",
       user: null,
@@ -63,30 +71,29 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     });
   },
   async onStartRegister(name, email, password) {
-    try {
-      const { data } = await calendarApi.post("/auth/new", {
-        name,
-        email,
-        password,
-      });
-      localStorage.setItem("token", data.token);
-      get().onLogin({ _id: data.uid, name: data.name });
-    } catch {
+    const data = await registerAction(name, email, password);
+    if (data._id === null || data.name === null || data.token === null) {
       get().onLogout("Error en el registro");
+      return;
     }
+    localStorage.setItem("token", data.token);
+    get().onLogin({ _id: data._id, name: data.name });
   },
   async onCheckAuthToken() {
     const token = localStorage.getItem("token");
     if (!token) {
       return get().onLogout("");
     }
-    try {
-      const { data } = await calendarApi.get("/auth/renew");
-      localStorage.setItem("token", data.token);
-      get().onLogin({ _id: data.uid, name: data.name });
-    } catch {
+
+    const data = await renewTokenAction();
+    if (data._id === null || data.name === null || data.token === null) {
       localStorage.clear();
       get().onLogout("");
+      return;
     }
+
+    localStorage.setItem("token", data.token);
+
+    get().onLogin({ _id: data._id, name: data.name });
   },
 }));
